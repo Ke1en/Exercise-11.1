@@ -22,11 +22,13 @@
         6. После завершения ввода, программа должна вывести список всех студентов и их оценок.
 */
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         // Первая задачка
+        /*
         try {
             Scanner scanner = new Scanner(System.in);
             String[] array = new String[5];
@@ -40,6 +42,40 @@ public class Main {
             System.out.println(array[6]);
         } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
             System.out.println("Была поймана одна из ошибок \n" + e);
+        } finally {
+            System.out.println("Обработка завершена");
+        }
+        */
+
+        // Вторая задачка
+        try {
+            Scanner scanner = new Scanner(System.in);
+            Student[] student = new Student[5];
+
+            for (int i = 0; i < student.length; i++) {
+                student[i] = new Student();
+                // Ловим ошибку NullPointerException
+                System.out.println("Введите имя " + (i+1) + " студента ");
+                student[i].setName(scanner.nextLine());
+                if (scanner.hasNextLine())
+                    scanner.nextLine();
+                checkNullException(student[i].getName());
+
+                // Ловим ошибку InputMismatchException
+                System.out.println("Введите оценку студента ");
+                student[i].setGrade(scanner.nextInt());
+                if (scanner.hasNextLine())
+                    scanner.nextLine();
+            }
+
+            for (int i = 0; i < student.length; i++) {
+                student[i].outputStudentGrades();
+            }
+
+        } catch (InputMismatchException | NullPointerException e) {
+            System.out.println("Была поймана одна из ошибок \n" + e);
+        } catch (IndexOutOfBoundsException indexException) {
+            System.out.println("Была поймана ошибка доступа к несуществующему элемента массива" + indexException);
         } finally {
             System.out.println("Обработка завершена");
         }
